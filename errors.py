@@ -40,11 +40,15 @@ class BadRequest(Error):
 
 
 class RegisteredAccount(BadRequest):
-    error_message = "This username is already registered."
+    error_message = "This username is already registered"
 
 
 class InvalidAccount(BadRequest):
-    error_message = "Invalid username or password."
+    error_message = "Invalid username or password"
+
+
+class ExistedCategory(BadRequest):
+    error_message = "This category is already existed"
 
 
 class UnauthorizedRequest(Error):

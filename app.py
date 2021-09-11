@@ -22,3 +22,4 @@ import models.category
 import models.item
 import errors
 import controllers.user
+import controllers.category

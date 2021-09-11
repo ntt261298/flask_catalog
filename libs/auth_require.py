@@ -10,17 +10,10 @@ from models.user import UserModel
 from models.admin import AdminModel
 
 
-def auth_require(account_type):
+def auth_require(account_type=None):
     def authentication(f):
-        wraps(f)
+        @wraps(f)
         def decorator_function(*args, **kwargs):
-            if account_type == AccountType.USER:
-                account_model = UserModel
-            elif account_type == AccountType.ADMIN:
-                account_model = AdminModel
-            else:
-                raise Exception('Invalid account type')
-
             authorization = request.headers.get('Authorization')
 
             if authorization is None:
@@ -29,18 +22,30 @@ def auth_require(account_type):
             if not access_token:
                 raise UnauthorizedRequest()
 
-            decoded = jwt.decode(access_token, app.config['JWT_SECRET'], algorithms="HS256")
+            try:
+                decoded = jwt.decode(access_token, app.config['JWT_SECRET'], algorithms="HS256")
+            except:
+                decoded = None
 
             if not decoded:
-                return UnauthorizedRequest()
+                raise UnauthorizedRequest()
 
             account_id = decoded.get('id')
-            account = account_model.query.get(account_id)
+
+            if account_type == AccountType.USER:
+                account = UserModel.query.get(account_id)
+            elif account_type == AccountType.ADMIN:
+                account = AdminModel.query.get(account_id)
+            else:
+                raise Exception('Invalid account type')
 
             if not account:
                 raise UnauthorizedRequest()
 
             kwargs[account_type] = account
+
             return f(*args, **kwargs)
+
         return decorator_function
+
     return authentication

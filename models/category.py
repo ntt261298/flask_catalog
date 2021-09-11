@@ -9,3 +9,10 @@ class CategoryModel(db.Model):
 
     def __repr__(self):
         return '<Category %r>' % self.name
+
+    def json(self):
+        return {'id': self.id, 'name': self.name}
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()
