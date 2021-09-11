@@ -16,8 +16,9 @@ else:
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
 
-from models.user import User
-from models.admin import Admin
-from models.category import Category
-from models.item import Item
-
+import models.user
+import models.admin
+import models.category
+import models.item
+import errors
+import controllers.user
