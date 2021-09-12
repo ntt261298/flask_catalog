@@ -10,3 +10,7 @@ class AdminModel(db.Model):
 
     def __repr__(self):
         return '<Admin %r>' % self.username
+
+    def save_to_db(self):
+        db.session.add(self)
+        db.session.commit()

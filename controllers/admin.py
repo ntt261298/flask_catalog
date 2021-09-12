@@ -3,25 +3,27 @@ from flask import jsonify
 from app import app
 from consts import AccountType
 from libs.validate import validate_data
+from libs.auth_require import auth_require
 from schemas.account import AccountSchema
 from engines.account import create_new_account, get_account_token
 
 
-@app.route('/user/register', methods=['POST'])
+@app.route('/admin', methods=['POST'])
 @validate_data(AccountSchema())
-def register_user(data):
+@auth_require(AccountType.ADMIN)
+def create_admin(data):
     create_new_account(
-        account_type=AccountType.USER,
+        account_type=AccountType.ADMIN,
         data=data
     )
     return jsonify({'data': None}), 201
 
 
-@app.route('/user/login', methods=['POST'])
+@app.route('/admin/login', methods=['POST'])
 @validate_data(AccountSchema())
-def login_user(data):
+def login_adminr(data):
     access_token = get_account_token(
-        account_type=AccountType.USER,
+        account_type=AccountType.ADMIN,
         data=data
     )
     return jsonify({'data': {'access_token': access_token}}), 200

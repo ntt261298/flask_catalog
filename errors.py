@@ -7,13 +7,13 @@ from app import app
 class StatusCode:
     BAD_REQUEST = 400
     UNAUTHORIZED = 401
-    INTERNAL_SERVER = 500
+    INTERNAL_SERVER_ERROR = 500
 
 
 class ErrorCode:
     BAD_REQUEST = 400000
     UNAUTHORIZED = 401000
-    INTERNAL_SERVER = 50000
+    INTERNAL_SERVER_ERROR = 50000
 
 
 class ErrorSchema(Schema):
