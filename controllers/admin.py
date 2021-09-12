@@ -21,7 +21,7 @@ def create_admin(data):
 
 @app.route('/admin/login', methods=['POST'])
 @validate_data(AccountSchema())
-def login_adminr(data):
+def login_admin(data):
     access_token = get_account_token(
         account_type=AccountType.ADMIN,
         data=data

@@ -45,7 +45,5 @@ def auth_require(account_type=None):
             kwargs[account_type] = account
 
             return f(*args, **kwargs)
-
         return decorator_function
-
     return authentication

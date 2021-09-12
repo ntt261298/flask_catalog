@@ -21,7 +21,7 @@ def create_category(data, admin):
     new_category = CategoryModel(name=data['name'])
     new_category.save_to_db()
 
-    return jsonify({'data': None})
+    return jsonify({'data': None}), 201
 
 
 @app.route('/categories', methods=['GET'])

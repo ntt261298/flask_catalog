@@ -7,12 +7,14 @@ from app import app
 class StatusCode:
     BAD_REQUEST = 400
     UNAUTHORIZED = 401
+    PERMISSION_DENIED = 403
     INTERNAL_SERVER_ERROR = 500
 
 
 class ErrorCode:
     BAD_REQUEST = 400000
     UNAUTHORIZED = 401000
+    PERMISSION_DENIED = 403000
     INTERNAL_SERVER_ERROR = 50000
 
 
@@ -49,6 +51,16 @@ class InvalidAccount(BadRequest):
 
 class ExistedCategory(BadRequest):
     error_message = "This category is already existed"
+
+
+class ItemNotFound(BadRequest):
+    error_message = "Can not find the item"
+
+
+class PermissionDenied(Error):
+    status_code = StatusCode.PERMISSION_DENIED
+    error_code = ErrorCode.PERMISSION_DENIED
+    error_message = "Permission denied"
 
 
 class UnauthorizedRequest(Error):
