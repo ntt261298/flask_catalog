@@ -8,7 +8,7 @@ from config import app_config
 
 app = Flask(__name__)
 
-if os.environ.get('ENV') in ['local', 'development', 'production']:
+if os.environ.get('ENV') in ['local', 'development', 'production', 'test']:
     app.config.from_object(app_config[os.environ['ENV']])
 else:
     app.config.from_object(app_config['local'])
