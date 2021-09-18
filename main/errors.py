@@ -1,7 +1,7 @@
 from flask import jsonify
 from marshmallow import Schema, fields
 
-from app import app
+from main.app import app
 
 
 class StatusCode:

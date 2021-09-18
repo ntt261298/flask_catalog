@@ -1,11 +1,11 @@
 from flask import jsonify
 
-from app import app
-from consts import AccountType
-from libs.validate import validate_data
-from libs.auth_require import auth_require
-from schemas.account import AccountSchema
-from engines.account import create_new_account, get_account_token
+from main.app import app
+from main.consts import AccountType
+from main.libs.validate import validate_data
+from main.libs.auth_require import auth_require
+from main.schemas.account import AccountSchema
+from main.engines.account import create_new_account, get_account_token
 
 
 @app.route('/admin', methods=['POST'])

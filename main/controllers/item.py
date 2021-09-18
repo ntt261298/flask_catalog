@@ -1,13 +1,13 @@
 from flask import jsonify
 
-from app import app
-from consts import AccountType
-from libs.validate import validate_data
-from libs.auth_require import auth_require
-from schemas.item import ItemSchema, UpdateItemSchema
-from models.item import ItemModel
-from models.category import CategoryModel
-from errors import PermissionDenied, ItemNotFound, CategoryNotFound
+from main.app import app
+from main.consts import AccountType
+from main.libs.validate import validate_data
+from main.libs.auth_require import auth_require
+from main.schemas.item import ItemSchema, UpdateItemSchema
+from main.models.item import ItemModel
+from main.models.category import CategoryModel
+from main.errors import PermissionDenied, ItemNotFound, CategoryNotFound
 
 
 @app.route('/items', methods=['POST'])

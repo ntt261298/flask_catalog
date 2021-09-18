@@ -2,11 +2,11 @@ import pytest
 import bcrypt
 from flask import json
 
-from app import db, app
+from main.app import db, app
 from config import app_config
-from models.user import UserModel
-from models.admin import AdminModel
-from models.category import CategoryModel
+from main.models.user import UserModel
+from main.models.admin import AdminModel
+from main.models.category import CategoryModel
 
 
 @pytest.fixture(scope='module')

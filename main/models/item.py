@@ -1,4 +1,4 @@
-from app import db
+from main.app import db
 
 
 class ItemModel(db.Model):

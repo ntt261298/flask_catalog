@@ -1,11 +1,11 @@
 import jwt
 import bcrypt
 
-from app import app
-from consts import AccountType
-from models.user import UserModel
-from models.admin import AdminModel
-from errors import RegisteredAccount, InvalidAccount
+from main.app import app
+from main.consts import AccountType
+from main.models.user import UserModel
+from main.models.admin import AdminModel
+from main.errors import RegisteredAccount, InvalidAccount
 
 
 def get_account_model(account_type):

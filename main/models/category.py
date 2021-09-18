@@ -1,4 +1,4 @@
-from app import db
+from main.app import db
 
 
 class CategoryModel(db.Model):

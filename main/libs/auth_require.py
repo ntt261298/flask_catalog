@@ -3,11 +3,11 @@ from functools import wraps
 import jwt
 from flask import request
 
-from app import app
-from consts import AccountType
-from errors import UnauthorizedRequest
-from models.user import UserModel
-from models.admin import AdminModel
+from main.app import app
+from main.consts import AccountType
+from main.errors import UnauthorizedRequest
+from main.models.user import UserModel
+from main.models.admin import AdminModel
 
 
 def auth_require(account_type=None):

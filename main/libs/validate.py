@@ -3,7 +3,7 @@ from functools import wraps
 from flask import request
 from marshmallow import ValidationError
 
-from errors import BadRequest
+from main.errors import BadRequest
 
 
 def validate_data(schema):
@@ -19,18 +19,3 @@ def validate_data(schema):
             return f(data=request_data, *args, **kwargs)
         return decorator_function
     return parse_data
-
-
-def validate_args(schema):
-    def parse_args(f):
-        @wraps(f)
-        def decorator_function(*args, **kwargs):
-            request_args = request.args
-
-            try:
-                request_data = schema.load(request_args)
-            except ValidationError as err:
-                raise BadRequest(error_data=err)
-            return f(data=request_data, *args, **kwargs)
-        return decorator_function
-    return parse_args

@@ -1,12 +1,12 @@
 from flask import jsonify
 
-from app import app
-from consts import AccountType
-from libs.validate import validate_data
-from libs.auth_require import auth_require
-from schemas.category import CategorySchema
-from models.category import CategoryModel
-from errors import ExistedCategory
+from main.app import app
+from main.consts import AccountType
+from main.libs.validate import validate_data
+from main.libs.auth_require import auth_require
+from main.schemas.category import CategorySchema
+from main.models.category import CategoryModel
+from main.errors import ExistedCategory
 
 
 @app.route('/categories', methods=['POST'])
