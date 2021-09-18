@@ -11,7 +11,7 @@ from engines.account import create_new_account, get_account_token
 @app.route('/admin', methods=['POST'])
 @validate_data(AccountSchema())
 @auth_require(AccountType.ADMIN)
-def create_admin(data):
+def create_admin(admin, data):
     create_new_account(
         account_type=AccountType.ADMIN,
         data=data
