@@ -53,6 +53,10 @@ class ExistedCategory(BadRequest):
     error_message = "This category is already existed"
 
 
+class CategoryNotFound(BadRequest):
+    error_message = "Can not find the category"
+
+
 class ItemNotFound(BadRequest):
     error_message = "Can not find the item"
 

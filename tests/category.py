@@ -2,6 +2,10 @@ from flask import json
 
 
 class TestCategory:
+    # To make db test works in this module
+    def test_db(self, db_test):
+        assert db_test
+
     def test_create_valid_category(
         self, config, testing_client, admin_authentication_headers
     ):

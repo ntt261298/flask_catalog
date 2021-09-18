@@ -6,13 +6,18 @@ from libs.validate import validate_data
 from libs.auth_require import auth_require
 from schemas.item import ItemSchema, UpdateItemSchema
 from models.item import ItemModel
-from errors import PermissionDenied, ItemNotFound
+from models.category import CategoryModel
+from errors import PermissionDenied, ItemNotFound, CategoryNotFound
 
 
 @app.route('/items', methods=['POST'])
 @auth_require(AccountType.USER)
 @validate_data(ItemSchema())
 def create_item(data, user):
+    category = CategoryModel.query.get(data['category_id'])
+    if category is None:
+        raise CategoryNotFound()
+
     new_item = ItemModel(
         title=data['title'],
         content=data['content'],
