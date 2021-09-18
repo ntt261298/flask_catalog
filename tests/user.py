@@ -1,18 +1,14 @@
 from flask import json
 
-from config import app_config
-
 
 class TestUser:
-    config = app_config['test']
-
     # To make db test works in this module
     def test_db(self, db_test):
         assert db_test
 
-    def test_register_valid_user(self, testing_client):
+    def test_register_valid_user(self, config, testing_client):
         response = testing_client.post(
-            self.config.API_URL + "/user/register",
+            config.API_URL + "/user/register",
             data=json.dumps(
                 {"username": "valid_username", "password": "random_password"}
             ),
@@ -22,9 +18,9 @@ class TestUser:
         assert response.status_code == 201
         assert json_response == {'data': None}
 
-    def test_register_invalid_username_password(self, testing_client):
+    def test_register_invalid_username_password(self, config, testing_client):
         response = testing_client.post(
-            self.config.API_URL + "/user/register",
+            config.API_URL + "/user/register",
             data=json.dumps({"username": "", "password": "123"}),
             headers={"Content-Type": "application/json"},
         )
@@ -41,9 +37,9 @@ class TestUser:
             }
         }
 
-    def test_register_duplicated_username(self, testing_client, test_user):
+    def test_register_duplicated_username(self, config, testing_client, test_user):
         response = testing_client.post(
-            self.config.API_URL + "/user/register",
+            config.API_URL + "/user/register",
             data=json.dumps(
                 {"username": test_user["username"], "password": "123456"}
             ),
@@ -59,9 +55,9 @@ class TestUser:
             }
         }
 
-    def test_login_valid_user(self, testing_client, test_user):
+    def test_login_valid_user(self, config, testing_client, test_user):
         response = testing_client.post(
-            self.config.API_URL + "/user/login",
+            config.API_URL + "/user/login",
             data=json.dumps(
                 {
                     "username": test_user["username"],
@@ -78,9 +74,9 @@ class TestUser:
             }
         }
 
-    def test_login_invalid_username_password(self, testing_client):
+    def test_login_invalid_username_password(self, config, testing_client):
         response = testing_client.post(
-            self.config.API_URL + "/user/login",
+            config.API_URL + "/user/login",
             data=json.dumps(
                 {
                     "username": "",
@@ -102,9 +98,9 @@ class TestUser:
             }
         }
 
-    def test_login_invalid_user(self, testing_client):
+    def test_login_invalid_user(self, config, testing_client):
         response = testing_client.post(
-            self.config.API_URL + "/user/login",
+            config.API_URL + "/user/login",
             data=json.dumps(
                 {
                     "username": "truong_nguyen",

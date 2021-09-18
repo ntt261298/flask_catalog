@@ -1,49 +1,28 @@
 from flask import json
 
-from config import app_config
-
 
 class TestAdmin:
-    config = app_config["test"]
-
-    def get_admin_authentication_headers(self, testing_client, test_admin):
-        response = testing_client.post(
-            self.config.API_URL + "/admin/login",
-            data=json.dumps(
-                {
-                    "username": test_admin["username"],
-                    "password": test_admin["password"],
-                }
-            ),
-            headers={"Content-Type": "application/json"},
-        )
-        json_response = json.loads(response.data)
-        return {
-            "Content-Type": "application/json",
-            "Authorization": "Bearer " + json_response["data"]["access_token"],
-        }
-
     # To make db test works in this module
     def test_db(self, db_test):
         assert db_test
 
-    def test_create_valid_admin(self, testing_client, test_admin):
+    def test_create_valid_admin(self, config, testing_client, admin_authentication_headers):
         response = testing_client.post(
-            self.config.API_URL + "/admin",
+            config.API_URL + "/admin",
             data=json.dumps(
                 {"username": "valid_username", "password": "random_password"}
             ),
-            headers=self.get_admin_authentication_headers(testing_client, test_admin),
+            headers=admin_authentication_headers,
         )
         json_response = json.loads(response.data)
         assert response.status_code == 201
         assert json_response == {"data": None}
 
-    def test_create_invalid_username_password(self, testing_client, test_admin):
+    def test_create_invalid_username_password(self, config, testing_client, admin_authentication_headers):
         response = testing_client.post(
-            self.config.API_URL + "/admin",
+            config.API_URL + "/admin",
             data=json.dumps({"username": "", "password": "123"}),
-            headers=self.get_admin_authentication_headers(testing_client, test_admin),
+            headers=admin_authentication_headers,
         )
         json_response = json.loads(response.data)
         assert response.status_code == 400
@@ -58,13 +37,13 @@ class TestAdmin:
             }
         }
 
-    def test_create_duplicated_username(self, testing_client, test_admin):
+    def test_create_duplicated_username(self, config, testing_client, test_admin, admin_authentication_headers):
         response = testing_client.post(
-            self.config.API_URL + "/admin",
+            config.API_URL + "/admin",
             data=json.dumps(
                 {"username": test_admin["username"], "password": "123456"}
             ),
-            headers=self.get_admin_authentication_headers(testing_client, test_admin),
+            headers=admin_authentication_headers,
         )
         json_response = json.loads(response.data)
         assert response.status_code == 400
@@ -76,9 +55,9 @@ class TestAdmin:
             }
         }
 
-    def test_unauthorized_create(self, testing_client, test_admin):
+    def test_unauthorized_create(self, config, testing_client, test_admin):
         response = testing_client.post(
-            self.config.API_URL + "/admin",
+            config.API_URL + "/admin",
             data=json.dumps(
                 {"username": test_admin["username"], "password": "123456"}
             ),
@@ -94,9 +73,9 @@ class TestAdmin:
             }
         }
 
-    def test_login_valid_admin(self, testing_client, test_admin):
+    def test_login_valid_admin(self, config, testing_client, test_admin):
         response = testing_client.post(
-            self.config.API_URL + "/admin/login",
+            config.API_URL + "/admin/login",
             data=json.dumps(
                 {
                     "username": test_admin["username"],
@@ -113,9 +92,9 @@ class TestAdmin:
             }
         }
 
-    def test_login_invalid_username_password(self, testing_client):
+    def test_login_invalid_username_password(self, config, testing_client):
         response = testing_client.post(
-            self.config.API_URL + "/admin/login",
+            config.API_URL + "/admin/login",
             data=json.dumps(
                 {
                     "username": "",
@@ -137,9 +116,9 @@ class TestAdmin:
             }
         }
 
-    def test_login_invalid_admin(self, testing_client):
+    def test_login_invalid_admin(self, config, testing_client):
         response = testing_client.post(
-            self.config.API_URL + "/admin/login",
+            config.API_URL + "/admin/login",
             data=json.dumps(
                 {
                     "username": "truong_nguyen",

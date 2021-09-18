@@ -1,9 +1,17 @@
 import pytest
 import bcrypt
+from flask import json
 
 from app import db, app
+from config import app_config
 from models.user import UserModel
 from models.admin import AdminModel
+from models.category import CategoryModel
+
+
+@pytest.fixture(scope='module')
+def config():
+    return app_config["test"]
 
 
 @pytest.fixture(scope='module')
@@ -40,6 +48,25 @@ def test_user(db_test):
 
 
 @pytest.fixture(scope='module')
+def user_authentication_headers(config, testing_client, test_user):
+    response = testing_client.post(
+        config.API_URL + "/user/login",
+        data=json.dumps(
+            {
+                "username": test_user["username"],
+                "password": test_user["password"],
+            }
+        ),
+        headers={"Content-Type": "application/json"},
+    )
+    json_response = json.loads(response.data)
+    return {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + json_response["data"]["access_token"],
+    }
+
+
+@pytest.fixture(scope='module')
 def test_admin(db_test):
     test_admin = {
         "username": "truong_admin",
@@ -53,3 +80,34 @@ def test_admin(db_test):
     )
     admin.save_to_db()
     return test_admin
+
+
+@pytest.fixture(scope='module')
+def admin_authentication_headers(config, testing_client, test_admin):
+    response = testing_client.post(
+        config.API_URL + "/admin/login",
+        data=json.dumps(
+            {
+                "username": test_admin["username"],
+                "password": test_admin["password"],
+            }
+        ),
+        headers={"Content-Type": "application/json"},
+    )
+    json_response = json.loads(response.data)
+    return {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer " + json_response["data"]["access_token"],
+    }
+
+
+@pytest.fixture(scope='module')
+def test_category(db_test):
+    test_category = {
+        "name": "Category",
+    }
+    category = CategoryModel(
+        name=test_category["name"],
+    )
+    category.save_to_db()
+    return test_category
