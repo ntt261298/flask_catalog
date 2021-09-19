@@ -68,11 +68,7 @@ class TestUser:
         )
         json_response = json.loads(response.data)
         assert response.status_code == 200
-        assert json_response == {
-            "data": {
-                "access_token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6Mn0.Ug2NvAlOyhVvu53NLUc2rXG1C9mTNLGbZVId_eoSO48"
-            }
-        }
+        assert "access_token" in json_response["data"]
 
     def test_login_invalid_username_password(self, config, testing_client):
         response = testing_client.post(

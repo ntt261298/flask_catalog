@@ -25,10 +25,7 @@ def db_test():
 @pytest.fixture(scope='module')
 def testing_client():
     # Create a test client using the Flask application configured for testing
-    with app.test_client() as testing_client:
-        # Establish an application context
-        with app.app_context():
-            yield testing_client
+    return app.test_client()
 
 
 @pytest.fixture(scope='module')
